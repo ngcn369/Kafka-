@@ -3,193 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Metamorphosis | Digital Gallery</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-
+    <title>BORED | Curated Content</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f8f9fa;
-            --text-color: #1a1a1a;
-            --accent-color: #4a4a4a;
-            --card-bg: rgba(255, 255, 255, 0.8);
-            --glass-nav: rgba(255, 255, 255, 0.7);
+            --primary: #f8f9fa;
+            --secondary: #121212;
+            --accent: #ff4757;
+            --card-border: #e1e4e8;
         }
-
-        .dark-mode {
-            --bg-color: #0f0f0f;
-            --text-color: #f0f0f0;
-            --accent-color: #a0a0a0;
-            --card-bg: rgba(30, 30, 30, 0.8);
-            --glass-nav: rgba(15, 15, 15, 0.7);
-        }
-
-        * { transition: all 0.3s ease; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
-            margin: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
+            background-color: var(--primary);
+            color: var(--secondary);
+            margin: 0; padding: 0;
+            line-height: 1.5;
         }
 
-        nav {
-            position: fixed;
-            top: 0; width: 100%; z-index: 1000;
-            background: var(--glass-nav);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: flex; justify-content: space-between;
-            align-items: center; padding: 0.5rem 2rem;
+        /* Bored.com Header Style */
+        header {
+            background: var(--secondary);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
         }
 
-        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        header h1 {
+            font-size: 3rem; margin: 0; font-weight: 800; letter-spacing: -2px;
+        }
 
-        .logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -1px; }
+        header p { opacity: 0.8; font-size: 1.1rem; }
 
-        #navLinks { list-style: none; display: flex; gap: 20px; }
-        #navLinks a { text-decoration: none; color: var(--text-color); font-weight: 600; font-size: 0.9rem; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
 
-        main { max-width: 1000px; margin: 100px auto 50px; padding: 0 20px; }
+        /* The Bored Grid */
+        .category-title {
+            border-bottom: 4px solid var(--secondary);
+            padding-bottom: 10px; margin: 40px 0 20px;
+            font-size: 1.5rem; text-transform: uppercase; font-weight: 800;
+        }
 
-        .hero { text-align: center; margin-bottom: 60px; animation: fadeIn 1s forwards; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .gallery-grid {
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
         }
 
-        .gallery-item {
-            background: var(--card-bg);
-            border-radius: 12px;
+        .card {
+            background: white;
+            border: 2px solid var(--card-border);
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s, border-color 0.2s;
         }
 
-        .gallery-img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            display: block;
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
-        .gallery-img:hover { transform: scale(1.02); }
-
-        /* Lightbox */
-        .lightbox {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(5px);
-            justify-content: center; align-items: center;
+        .card img, .card video {
+            width: 100%; height: 180px; object-fit: cover;
+            border-bottom: 2px solid var(--card-border);
         }
 
-        .lightbox-content { max-width: 90%; max-height: 85vh; border-radius: 8px; }
+        .card-info { padding: 15px; }
+        .card-info h3 { margin: 0; font-size: 1.1rem; color: var(--secondary); }
+        .card-info p { margin: 5px 0 0; font-size: 0.9rem; color: #666; }
 
-        #darkModeToggle {
-            background: none; border: 1px solid var(--text-color);
-            color: var(--text-color); border-radius: 20px;
-            padding: 4px 12px; cursor: pointer; font-size: 0.8rem;
+        /* Search Bar Placeholder */
+        .search-container {
+            margin-top: -25px; text-align: center;
         }
-
-        .hamburger { display: none; font-size: 1.5rem; background: none; border: none; color: var(--text-color); cursor: pointer; }
-
-        @media (max-width: 600px) {
-            .hamburger { display: block; }
-            #navLinks {
-                display: none; flex-direction: column; position: absolute;
-                top: 60px; left: 0; width: 100%; background: var(--glass-nav);
-                padding: 20px; backdrop-filter: blur(20px);
-            }
-            #navLinks.active { display: flex; }
+        #search {
+            padding: 15px 25px; width: 80%; max-width: 600px;
+            border-radius: 30px; border: 2px solid var(--secondary);
+            font-size: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">NGCN <span style="font-weight:300">STUDIOS</span></div>
-        <div style="display: flex; align-items: center; gap: 15px;">
-            <button id="darkModeToggle">MODE</button>
-            <button class="hamburger" id="hamburgerMenu">☰</button>
-        </div>
-        <ul id="navLinks">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </nav>
+<header>
+    <h1>BORED.</h1>
+    <p>Fun, interesting & cool things for ngcn369 to explore.</p>
+</header>
 
-    <main>
-        <section class="hero">
-            <h1>Visualizing Kafka</h1>
-            <p style="color: var(--accent-color); font-style: italic;">Atmospheric studies and narrative concepts.</p>
-        </section>
+<div class="search-container">
+    <input type="text" id="search" placeholder="Search my collections...">
+</div>
 
-        <h2 style="margin-bottom: 20px;">Atmosphere</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <video class="gallery-img" autoplay muted loop playsinline>
-                    <source src="suburban-drift.mp4" type="video/mp4">
-                </video>
+<div class="container">
+    
+    <div class="category-title">Atmosphere</div>
+    <div class="grid">
+        <div class="card">
+            <video autoplay muted loop playsinline>
+                <source src="suburban-drift.mp4" type="video/mp4">
+            </video>
+            <div class="card-info">
+                <h3>Suburban Drift</h3>
+                <p>Liminal space video study.</p>
             </div>
-            <div class="gallery-item"><img src="night-alley.jpg" class="gallery-img"></div>
-            <div class="gallery-item"><img src="sunset-dog.jpg" class="gallery-img"></div>
-            <div class="gallery-item"><img src="pink-sky.jpg" class="gallery-img"></div>
-            <div class="gallery-item"><img src="street-lamp.jpg" class="gallery-img"></div>
         </div>
-
-        <h2 style="margin-top: 60px; margin-bottom: 20px;">The Metamorphosis</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item"><img src="scene1.jpg" class="gallery-img"></div>
-            <div class="gallery-item"><img src="scene2.jpg" class="gallery-img"></div>
-            <div class="gallery-item"><img src="scene3.jpg" class="gallery-img"></div>
-            <div class="gallery-item"><img src="scene4.jpg" class="gallery-img"></div>
-            <div class="gallery-item"><img src="scene5.jpg" class="gallery-img"></div>
-            <div class="gallery-item"><img src="scene6.jpg" class="gallery-img"></div>
-            <div class="gallery-item"><img src="scene7.jpg" class="gallery-img"></div>
-            <div class="gallery-item"><img src="scene8.jpg" class="gallery-img"></div>
-            <div class="gallery-item"><img src="scene9.jpg" class="gallery-img"></div>
-            <div class="gallery-item"><img src="scene10.jpg" class="gallery-img"></div>
-        </div>
-    </main>
-
-    <div id="imageLightbox" class="lightbox">
-        <img class="lightbox-content" id="expandedImg">
+        <a href="#" class="card">
+            <img src="night-alley.jpg">
+            <div class="card-info">
+                <h3>Alley Study</h3>
+                <p>Night photography series.</p>
+            </div>
+        </a>
+        <a href="#" class="card">
+            <img src="sunset-dog.jpg">
+            <div class="card-info">
+                <h3>The Golden Hour</h3>
+                <p>Atmospheric landscape.</p>
+            </div>
+        </a>
     </div>
 
-    <script>
-        const darkModeBtn = document.getElementById('darkModeToggle');
-        darkModeBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            darkModeBtn.textContent = document.body.classList.contains('dark-mode') ? 'LIGHT' : 'DARK';
-        });
+    <div class="category-title">The Metamorphosis</div>
+    <div class="grid" id="kafkaGrid">
+        </div>
 
-        document.getElementById('hamburgerMenu').addEventListener('click', () => {
-            document.getElementById('navLinks').classList.toggle('active');
-        });
+</div>
 
-        const lightbox = document.getElementById('imageLightbox');
-        const expandedImg = document.getElementById('expandedImg');
-        
-        // Lightbox for images only
-        document.querySelectorAll('img.gallery-img').forEach(img => {
-            img.addEventListener('click', () => {
-                lightbox.style.display = 'flex';
-                expandedImg.src = img.src;
-            });
-        });
+<script>
+    // Automatically generate the 10 Kafka cards
+    const kafkaGrid = document.getElementById('kafkaGrid');
+    const scenes = [
+        "The Awakening", "The Protest", "The Threshold", 
+        "The Retreat", "The Sister", "The Apple", 
+        "The Music", "The Abandonment", "The End", "The Departure"
+    ];
 
-        lightbox.addEventListener('click', () => {
-            lightbox.style.display = 'none';
+    scenes.forEach((title, i) => {
+        const sceneNum = i + 1;
+        kafkaGrid.innerHTML += `
+            <a href="scene${sceneNum}.jpg" class="card">
+                <img src="scene${sceneNum}.jpg" alt="${title}">
+                <div class="card-info">
+                    <h3>Scene ${sceneNum}: ${title}</h3>
+                    <p>Kafka Concept Art Series</p>
+                </div>
+            </a>
+        `;
+    });
+
+    // Simple Search Logic
+    document.getElementById('search').addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        document.querySelectorAll('.card').forEach(card => {
+            const title = card.querySelector('h3').innerText.toLowerCase();
+            card.style.display = title.includes(term) ? 'block' : 'none';
         });
-    </script>
+    });
+</script>
+
 </body>
 </html>
