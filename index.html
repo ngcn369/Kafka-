@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BORED | Curated Content</title>
+    <title>NGCN | Directory</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #f8f9fa;
-            --secondary: #121212;
+            --primary: #ffffff;
+            --secondary: #000000;
             --accent: #ff4757;
-            --card-border: #e1e4e8;
+            --card-border: #f0f0f0;
         }
 
         body {
@@ -18,148 +18,141 @@
             background-color: var(--primary);
             color: var(--secondary);
             margin: 0; padding: 0;
-            line-height: 1.5;
         }
 
-        /* Bored.com Header Style */
+        /* Bored.com Bold Header */
         header {
             background: var(--secondary);
             color: white;
-            padding: 40px 20px;
+            padding: 60px 20px;
             text-align: center;
         }
 
         header h1 {
-            font-size: 3rem; margin: 0; font-weight: 800; letter-spacing: -2px;
+            font-size: 3.5rem; margin: 0; font-weight: 800; letter-spacing: -3px;
         }
-
-        header p { opacity: 0.8; font-size: 1.1rem; }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
 
-        /* The Bored Grid */
-        .category-title {
-            border-bottom: 4px solid var(--secondary);
-            padding-bottom: 10px; margin: 40px 0 20px;
-            font-size: 1.5rem; text-transform: uppercase; font-weight: 800;
+        /* Search Bar Style */
+        .search-wrapper {
+            margin-top: -30px; text-align: center; margin-bottom: 50px;
+        }
+        #searchInput {
+            padding: 18px 30px; width: 90%; max-width: 500px;
+            border-radius: 50px; border: 3px solid var(--secondary);
+            font-size: 1.1rem; font-weight: 600;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Grid Layout */
+        .category-label {
+            font-size: 1.2rem; font-weight: 800; text-transform: uppercase;
+            border-bottom: 5px solid var(--secondary);
+            display: inline-block; margin-bottom: 25px;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
         }
 
         .card {
             background: white;
-            border: 2px solid var(--card-border);
-            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
             overflow: hidden;
             text-decoration: none;
             color: inherit;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: all 0.3s ease;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--secondary);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
         }
 
         .card img, .card video {
-            width: 100%; height: 180px; object-fit: cover;
-            border-bottom: 2px solid var(--card-border);
+            width: 100%; height: 220px; object-fit: cover;
         }
 
-        .card-info { padding: 15px; }
-        .card-info h3 { margin: 0; font-size: 1.1rem; color: var(--secondary); }
-        .card-info p { margin: 5px 0 0; font-size: 0.9rem; color: #666; }
+        .card-content { padding: 20px; }
+        .card-content h3 { margin: 0 0 5px; font-size: 1.2rem; }
+        .card-content p { margin: 0; color: #777; font-size: 0.9rem; }
 
-        /* Search Bar Placeholder */
-        .search-container {
-            margin-top: -25px; text-align: center;
-        }
-        #search {
-            padding: 15px 25px; width: 80%; max-width: 600px;
-            border-radius: 30px; border: 2px solid var(--secondary);
-            font-size: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        @media (max-width: 600px) {
+            header h1 { font-size: 2.5rem; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>BORED.</h1>
-    <p>Fun, interesting & cool things for ngcn369 to explore.</p>
+    <h1>DIRECTORY.</h1>
 </header>
 
-<div class="search-container">
-    <input type="text" id="search" placeholder="Search my collections...">
+<div class="search-wrapper">
+    <input type="text" id="searchInput" placeholder="Search visuals...">
 </div>
 
 <div class="container">
     
-    <div class="category-title">Atmosphere</div>
+    <div class="category-label">Atmosphere</div>
+    
     <div class="grid">
         <div class="card">
             <video autoplay muted loop playsinline>
                 <source src="suburban-drift.mp4" type="video/mp4">
             </video>
-            <div class="card-info">
+            <div class="card-content">
                 <h3>Suburban Drift</h3>
-                <p>Liminal space video study.</p>
+                <p>Cinematic study of space.</p>
             </div>
         </div>
-        <a href="#" class="card">
+
+        <div class="card">
             <img src="night-alley.jpg">
-            <div class="card-info">
-                <h3>Alley Study</h3>
-                <p>Night photography series.</p>
+            <div class="card-content">
+                <h3>Night Alley</h3>
+                <p>Street photography.</p>
             </div>
-        </a>
-        <a href="#" class="card">
+        </div>
+
+        <div class="card">
+            <img src="pink-sky.jpg">
+            <div class="card-content">
+                <h3>Pink Sky</h3>
+                <p>Dusk gradient study.</p>
+            </div>
+        </div>
+
+        <div class="card">
             <img src="sunset-dog.jpg">
-            <div class="card-info">
-                <h3>The Golden Hour</h3>
+            <div class="card-content">
+                <h3>Golden Hour</h3>
                 <p>Atmospheric landscape.</p>
             </div>
-        </a>
-    </div>
-
-    <div class="category-title">The Metamorphosis</div>
-    <div class="grid" id="kafkaGrid">
         </div>
+
+        <div class="card">
+            <img src="street-lamp.jpg">
+            <div class="card-content">
+                <h3>Street Lamp</h3>
+                <p>Solitary lighting study.</p>
+            </div>
+        </div>
+    </div>
 
 </div>
 
 <script>
-    // Automatically generate the 10 Kafka cards
-    const kafkaGrid = document.getElementById('kafkaGrid');
-    const scenes = [
-        "The Awakening", "The Protest", "The Threshold", 
-        "The Retreat", "The Sister", "The Apple", 
-        "The Music", "The Abandonment", "The End", "The Departure"
-    ];
-
-    scenes.forEach((title, i) => {
-        const sceneNum = i + 1;
-        kafkaGrid.innerHTML += `
-            <a href="scene${sceneNum}.jpg" class="card">
-                <img src="scene${sceneNum}.jpg" alt="${title}">
-                <div class="card-info">
-                    <h3>Scene ${sceneNum}: ${title}</h3>
-                    <p>Kafka Concept Art Series</p>
-                </div>
-            </a>
-        `;
-    });
-
-    // Simple Search Logic
-    document.getElementById('search').addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase();
+    // Search Logic
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+        const val = e.target.value.toLowerCase();
         document.querySelectorAll('.card').forEach(card => {
-            const title = card.querySelector('h3').innerText.toLowerCase();
-            card.style.display = title.includes(term) ? 'block' : 'none';
+            const text = card.querySelector('h3').innerText.toLowerCase();
+            card.style.display = text.includes(val) ? 'block' : 'none';
         });
     });
 </script>
