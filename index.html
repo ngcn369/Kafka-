@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NGCN | Directory</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
@@ -12,11 +12,13 @@
             --card-border: #f0f0f0;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--primary);
-            color: var(--secondary);
+        /* Prevent side-to-side shaking */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
             margin: 0; padding: 0;
+            background-color: var(--primary);
+            font-family: 'Inter', sans-serif;
         }
 
         header {
@@ -26,26 +28,16 @@
             text-align: center;
         }
 
-        header h1 {
-            font-size: 3.5rem; margin: 0; font-weight: 800; letter-spacing: -3px;
-        }
+        header h1 { font-size: 3.5rem; margin: 0; font-weight: 800; letter-spacing: -3px; }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
 
-        .search-wrapper {
-            margin-top: -30px; text-align: center; margin-bottom: 50px;
-        }
+        .search-wrapper { margin-top: -30px; text-align: center; margin-bottom: 50px; }
+        
         #searchInput {
-            padding: 18px 30px; width: 90%; max-width: 500px;
+            padding: 18px 30px; width: 85%; max-width: 500px;
             border-radius: 50px; border: 3px solid var(--secondary);
             font-size: 1.1rem; font-weight: 600;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
-        .category-label {
-            font-size: 1.2rem; font-weight: 800; text-transform: uppercase;
-            border-bottom: 5px solid var(--secondary);
-            display: inline-block; margin-bottom: 25px;
         }
 
         .grid {
@@ -60,94 +52,58 @@
             border-radius: 15px;
             overflow: hidden;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
 
-        .card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-        }
-
-        .media-content {
-            width: 100%; height: 220px; object-fit: cover; display: block;
-        }
+        .media-content { width: 100%; height: 250px; object-fit: cover; display: block; }
 
         .card-content { padding: 20px; }
-        .card-content h3 { margin: 0 0 5px; font-size: 1.2rem; }
-        .card-content p { margin: 0; color: #777; font-size: 0.9rem; }
+        .card-content h3 { margin: 0; font-size: 1.2rem; }
 
-        /* Lightbox (Pop-up) Styles */
+        /* Lightbox - Locked & Stable */
         .lightbox {
             display: none;
             position: fixed;
-            z-index: 2000;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
+            z-index: 9999;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.98);
             justify-content: center; align-items: center;
+            touch-action: none; /* Prevents scrolling while open */
         }
 
-        .lightbox-content { max-width: 90%; max-height: 80vh; border-radius: 10px; }
-
-        @media (max-width: 600px) {
-            header h1 { font-size: 2.5rem; }
+        .lightbox-content {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
         }
+
+        /* Stop body scroll when lightbox is open */
+        body.no-scroll { overflow: hidden; position: fixed; width: 100%; }
+
+        @media (max-width: 600px) { header h1 { font-size: 2.5rem; } }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>DIRECTORY.</h1>
-</header>
+<header><h1>DIRECTORY.</h1></header>
 
 <div class="search-wrapper">
     <input type="text" id="searchInput" placeholder="Search visuals...">
 </div>
 
 <div class="container">
-    <div class="category-label">Atmosphere</div>
-    
     <div class="grid">
         <div class="card">
-            <video class="media-content" controls>
+            <video class="media-content" controls preload="metadata">
                 <source src="suburban-drift.mp4" type="video/mp4">
             </video>
-            <div class="card-content">
-                <h3>Suburban Drift</h3>
-                <p>Tap play to hear audio.</p>
-            </div>
+            <div class="card-content"><h3>Suburban Drift</h3></div>
         </div>
 
-        <div class="card">
-            <img src="night-alley.jpg" class="media-content popup-trigger">
-            <div class="card-content">
-                <h3>Night Alley</h3>
-                <p>Street photography.</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="pink-sky.jpg" class="media-content popup-trigger">
-            <div class="card-content">
-                <h3>Pink Sky</h3>
-                <p>Dusk gradient study.</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="sunset-dog.jpg" class="media-content popup-trigger">
-            <div class="card-content">
-                <h3>Golden Hour</h3>
-                <p>Atmospheric landscape.</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="street-lamp.jpg" class="media-content popup-trigger">
-            <div class="card-content">
-                <h3>Street Lamp</h3>
-                <p>Solitary lighting study.</p>
-            </div>
-        </div>
+        <div class="card"><img src="night-alley.jpg" class="media-content popup-trigger"><div class="card-content"><h3>Night Alley</h3></div></div>
+        <div class="card"><img src="pink-sky.jpg" class="media-content popup-trigger"><div class="card-content"><h3>Pink Sky</h3></div></div>
+        <div class="card"><img src="sunset-dog.jpg" class="media-content popup-trigger"><div class="card-content"><h3>Golden Hour</h3></div></div>
+        <div class="card"><img src="street-lamp.jpg" class="media-content popup-trigger"><div class="card-content"><h3>Street Lamp</h3></div></div>
     </div>
 </div>
 
@@ -156,29 +112,50 @@
 </div>
 
 <script>
-    // 1. Search Logic
+    const lightbox = document.getElementById('imageLightbox');
+    const expandedImg = document.getElementById('expandedImg');
+
+    // Function to OPEN Lightbox
+    function openLightbox(src) {
+        expandedImg.src = src;
+        lightbox.style.display = 'flex';
+        document.body.classList.add('no-scroll');
+        
+        // This trick adds a "fake" page to browser history
+        history.pushState({ lightbox: true }, "");
+    }
+
+    // Function to CLOSE Lightbox
+    function closeLightbox() {
+        lightbox.style.display = 'none';
+        document.body.classList.remove('no-scroll');
+    }
+
+    // Listen for Back Button
+    window.onpopstate = function(event) {
+        // If back is pressed and lightbox is open, just close it
+        closeLightbox();
+    };
+
+    document.querySelectorAll('.popup-trigger').forEach(img => {
+        img.addEventListener('click', () => openLightbox(img.src));
+    });
+
+    lightbox.addEventListener('click', () => {
+        // Close manually and remove the "fake" page from history
+        closeLightbox();
+        if (history.state && history.state.lightbox) {
+            history.back();
+        }
+    });
+
+    // Simple Search
     document.getElementById('searchInput').addEventListener('input', (e) => {
         const val = e.target.value.toLowerCase();
         document.querySelectorAll('.card').forEach(card => {
             const text = card.querySelector('h3').innerText.toLowerCase();
             card.style.display = text.includes(val) ? 'block' : 'none';
         });
-    });
-
-    // 2. Pop-up (Lightbox) Logic
-    const lightbox = document.getElementById('imageLightbox');
-    const expandedImg = document.getElementById('expandedImg');
-
-    document.querySelectorAll('.popup-trigger').forEach(img => {
-        img.addEventListener('click', () => {
-            lightbox.style.display = 'flex';
-            expandedImg.src = img.src;
-        });
-    });
-
-    // Close Lightbox on click
-    lightbox.addEventListener('click', () => {
-        lightbox.style.display = 'none';
     });
 </script>
 
