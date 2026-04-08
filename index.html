@@ -3,267 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualizing The Metamorphosis</title>
+    <title>The Metamorphosis | Digital Gallery</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
     <style>
-        /* Base Variables for Light/Dark Mode */
         :root {
-            --bg-color: #f4f4f9;
-            --text-color: #333;
-            --nav-bg: #1a1a1a;
-            --nav-text: white;
-            --card-bg: white;
-            --border-color: #ddd;
+            --bg-color: #f8f9fa;
+            --text-color: #1a1a1a;
+            --accent-color: #4a4a4a;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --glass-nav: rgba(255, 255, 255, 0.7);
         }
 
         .dark-mode {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --nav-bg: #000000;
-            --card-bg: #1e1e1e;
-            --border-color: #333;
+            --bg-color: #0f0f0f;
+            --text-color: #f0f0f0;
+            --accent-color: #a0a0a0;
+            --card-bg: rgba(30, 30, 30, 0.8);
+            --glass-nav: rgba(15, 15, 15, 0.7);
         }
+
+        * { transition: all 0.3s ease; box-sizing: border-box; }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 0;
             background-color: var(--bg-color);
             color: var(--text-color);
-            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.6;
         }
 
-        /* Navigation Styles */
         nav {
-            background-color: var(--nav-bg);
-            color: var(--nav-text);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
+            position: fixed;
+            top: 0; width: 100%; z-index: 1000;
+            background: var(--glass-nav);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex; justify-content: space-between;
+            align-items: center; padding: 0.5rem 2rem;
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
 
-        /* Mobile Menu Button */
-        .hamburger {
-            display: none;
-            font-size: 1.5rem;
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-        }
+        .logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -1px; }
 
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 15px;
-            margin: 0;
-            padding: 0;
-        }
+        #navLinks { list-style: none; display: flex; gap: 20px; }
+        #navLinks a { text-decoration: none; color: var(--text-color); font-weight: 600; font-size: 0.9rem; }
 
-        nav a {
-            color: white;
-            text-decoration: none;
-        }
+        main { max-width: 1000px; margin: 100px auto 50px; padding: 0 20px; }
 
-        /* Dark Mode Toggle Button */
-        #darkModeToggle {
-            background: none;
-            border: 1px solid white;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+        .hero { text-align: center; margin-bottom: 60px; animation: fadeIn 1s forwards; }
 
-        main {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .hero {
-            text-align: center;
-            padding: 3rem 0;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        .content article {
-            background: var(--card-bg);
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        /* Gallery Styles */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            cursor: pointer;
         }
 
         .gallery-img {
             width: 100%;
-            height: 150px;
+            height: 300px;
             object-fit: cover;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: transform 0.2s;
+            display: block;
         }
 
-        .gallery-img:hover {
-            transform: scale(1.05);
-        }
+        .gallery-img:hover { transform: scale(1.02); }
 
-        /* Lightbox (Hidden by default) */
+        /* Lightbox */
         .lightbox {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            justify-content: center;
-            align-items: center;
+            z-index: 2000;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(5px);
+            justify-content: center; align-items: center;
         }
 
-        .lightbox-content {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 5px;
+        .lightbox-content { max-width: 90%; max-height: 85vh; border-radius: 8px; }
+
+        #darkModeToggle {
+            background: none; border: 1px solid var(--text-color);
+            color: var(--text-color); border-radius: 20px;
+            padding: 4px 12px; cursor: pointer; font-size: 0.8rem;
         }
 
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+        .hamburger { display: none; font-size: 1.5rem; background: none; border: none; color: var(--text-color); cursor: pointer; }
 
-        /* Mobile Adjustments */
         @media (max-width: 600px) {
-            .hamburger {
-                display: block;
+            .hamburger { display: block; }
+            #navLinks {
+                display: none; flex-direction: column; position: absolute;
+                top: 60px; left: 0; width: 100%; background: var(--glass-nav);
+                padding: 20px; backdrop-filter: blur(20px);
             }
-            
-            nav ul {
-                display: none; /* Hide menu by default on mobile */
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: var(--nav-bg);
-                padding: 1rem 0;
-                text-align: center;
-            }
-
-            nav ul.active {
-                display: flex; /* Show when hamburger is clicked */
-            }
+            #navLinks.active { display: flex; }
         }
     </style>
 </head>
 <body>
+
     <nav>
-        <div class="logo-container">
-            <h2>My Digital Workspace</h2>
-            <button id="darkModeToggle">🌙</button>
+        <div class="logo">NGCN <span style="font-weight:300">STUDIOS</span></div>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <button id="darkModeToggle">MODE</button>
+            <button class="hamburger" id="hamburgerMenu">☰</button>
         </div>
-        
-        <button class="hamburger" id="hamburgerMenu">☰</button>
-        
         <ul id="navLinks">
             <li><a href="index.html">Home</a></li>
-            <li><a href="#">Projects</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
     </nav>
+
     <main>
         <section class="hero">
-            <h1>The Metamorphosis Project</h1>
-            <p>An exploration of Franz Kafka's classic story through concept art.</p>
+            <h1>Visualizing Kafka</h1>
+            <p style="color: var(--accent-color); font-style: italic;">Atmospheric studies and narrative concepts.</p>
         </section>
-        
-        <section class="content">
-            <article>
-                <h3>Concept Art Gallery</h3>
-                <p>Select an image to expand.</p>
-                
-                <div class="gallery-grid">
-                    <img src="https://picsum.photos/id/10/400/300" alt="Concept 1" class="gallery-img">
-                    <img src="https://picsum.photos/id/11/400/300" alt="Concept 2" class="gallery-img">
-                    <img src="https://picsum.photos/id/12/400/300" alt="Concept 3" class="gallery-img">
-                </div>
-            </article>
-        </section>
+
+        <h2 style="margin-bottom: 20px;">Atmosphere</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <video class="gallery-img" autoplay muted loop playsinline>
+                    <source src="suburban-drift.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="gallery-item"><img src="night-alley.jpg" class="gallery-img"></div>
+            <div class="gallery-item"><img src="sunset-dog.jpg" class="gallery-img"></div>
+            <div class="gallery-item"><img src="pink-sky.jpg" class="gallery-img"></div>
+            <div class="gallery-item"><img src="street-lamp.jpg" class="gallery-img"></div>
+        </div>
+
+        <h2 style="margin-top: 60px; margin-bottom: 20px;">The Metamorphosis</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="scene1.jpg" class="gallery-img"></div>
+            <div class="gallery-item"><img src="scene2.jpg" class="gallery-img"></div>
+            <div class="gallery-item"><img src="scene3.jpg" class="gallery-img"></div>
+            <div class="gallery-item"><img src="scene4.jpg" class="gallery-img"></div>
+            <div class="gallery-item"><img src="scene5.jpg" class="gallery-img"></div>
+            <div class="gallery-item"><img src="scene6.jpg" class="gallery-img"></div>
+            <div class="gallery-item"><img src="scene7.jpg" class="gallery-img"></div>
+            <div class="gallery-item"><img src="scene8.jpg" class="gallery-img"></div>
+            <div class="gallery-item"><img src="scene9.jpg" class="gallery-img"></div>
+            <div class="gallery-item"><img src="scene10.jpg" class="gallery-img"></div>
+        </div>
     </main>
 
     <div id="imageLightbox" class="lightbox">
-        <span class="close-btn" id="closeLightbox">&times;</span>
         <img class="lightbox-content" id="expandedImg">
     </div>
 
     <script>
-        // --- 1. DARK MODE TOGGLE ---
         const darkModeBtn = document.getElementById('darkModeToggle');
-        const body = document.body;
-
         darkModeBtn.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            // Change the icon based on the mode
-            if (body.classList.contains('dark-mode')) {
-                darkModeBtn.textContent = '☀️';
-            } else {
-                darkModeBtn.textContent = '🌙';
-            }
+            document.body.classList.toggle('dark-mode');
+            darkModeBtn.textContent = document.body.classList.contains('dark-mode') ? 'LIGHT' : 'DARK';
         });
 
-        // --- 2. MOBILE HAMBURGER MENU ---
-        const hamburgerBtn = document.getElementById('hamburgerMenu');
-        const navLinks = document.getElementById('navLinks');
-
-        hamburgerBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+        document.getElementById('hamburgerMenu').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
         });
 
-        // --- 3. IMAGE GALLERY LIGHTBOX ---
         const lightbox = document.getElementById('imageLightbox');
         const expandedImg = document.getElementById('expandedImg');
-        const closeBtn = document.getElementById('closeLightbox');
-        const galleryImages = document.querySelectorAll('.gallery-img');
-
-        // Loop through each image and add a click event
-        galleryImages.forEach(img => {
-            img.addEventListener('click', function() {
-                lightbox.style.display = 'flex'; // Show the lightbox
-                expandedImg.src = this.src; // Set the big image to the one clicked
+        
+        // Lightbox for images only
+        document.querySelectorAll('img.gallery-img').forEach(img => {
+            img.addEventListener('click', () => {
+                lightbox.style.display = 'flex';
+                expandedImg.src = img.src;
             });
         });
 
-        // Close the lightbox when the X is clicked
-        closeBtn.addEventListener('click', () => {
+        lightbox.addEventListener('click', () => {
             lightbox.style.display = 'none';
-        });
-
-        // Close the lightbox if the user clicks anywhere outside the image
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) {
-                lightbox.style.display = 'none';
-            }
         });
     </script>
 </body>
