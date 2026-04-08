@@ -5,21 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualizing The Metamorphosis</title>
     <style>
+        /* Base Variables for Light/Dark Mode */
+        :root {
+            --bg-color: #f4f4f9;
+            --text-color: #333;
+            --nav-bg: #1a1a1a;
+            --nav-text: white;
+            --card-bg: white;
+            --border-color: #ddd;
+        }
+
+        .dark-mode {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --nav-bg: #000000;
+            --card-bg: #1e1e1e;
+            --border-color: #333;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
         }
+
+        /* Navigation Styles */
         nav {
-            background-color: #1a1a1a;
-            color: white;
+            background-color: var(--nav-bg);
+            color: var(--nav-text);
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Mobile Menu Button */
+        .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
         nav ul {
             list-style: none;
             display: flex;
@@ -27,36 +66,130 @@
             margin: 0;
             padding: 0;
         }
+
         nav a {
             color: white;
             text-decoration: none;
         }
+
+        /* Dark Mode Toggle Button */
+        #darkModeToggle {
+            background: none;
+            border: 1px solid white;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
         main {
             max-width: 800px;
             margin: 2rem auto;
             padding: 0 1rem;
         }
+
         .hero {
             text-align: center;
             padding: 3rem 0;
-            border-bottom: 2px solid #ddd;
+            border-bottom: 2px solid var(--border-color);
         }
+
         .content article {
-            background: white;
+            background: var(--card-bg);
             padding: 1.5rem;
             margin-top: 1.5rem;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+
+        /* Gallery Styles */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Lightbox (Hidden by default) */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 5px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .hamburger {
+                display: block;
+            }
+            
+            nav ul {
+                display: none; /* Hide menu by default on mobile */
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--nav-bg);
+                padding: 1rem 0;
+                text-align: center;
+            }
+
+            nav ul.active {
+                display: flex; /* Show when hamburger is clicked */
+            }
+        }
     </style>
 </head>
 <body>
     <nav>
-        <h2>My Digital Workspace</h2>
-        <ul>
-            <li><a href="#">Home</a></li>
+        <div class="logo-container">
+            <h2>My Digital Workspace</h2>
+            <button id="darkModeToggle">🌙</button>
+        </div>
+        
+        <button class="hamburger" id="hamburgerMenu">☰</button>
+        
+        <ul id="navLinks">
+            <li><a href="index.html">Home</a></li>
             <li><a href="#">Projects</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
     </nav>
     <main>
@@ -64,12 +197,74 @@
             <h1>The Metamorphosis Project</h1>
             <p>An exploration of Franz Kafka's classic story through concept art.</p>
         </section>
+        
         <section class="content">
             <article>
-                <h3>Status: In Progress</h3>
-                <p>Currently organizing a series of narrative notes and visual concepts to complete the story's sequence.</p>
+                <h3>Concept Art Gallery</h3>
+                <p>Select an image to expand.</p>
+                
+                <div class="gallery-grid">
+                    <img src="https://picsum.photos/id/10/400/300" alt="Concept 1" class="gallery-img">
+                    <img src="https://picsum.photos/id/11/400/300" alt="Concept 2" class="gallery-img">
+                    <img src="https://picsum.photos/id/12/400/300" alt="Concept 3" class="gallery-img">
+                </div>
             </article>
         </section>
     </main>
+
+    <div id="imageLightbox" class="lightbox">
+        <span class="close-btn" id="closeLightbox">&times;</span>
+        <img class="lightbox-content" id="expandedImg">
+    </div>
+
+    <script>
+        // --- 1. DARK MODE TOGGLE ---
+        const darkModeBtn = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        darkModeBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            // Change the icon based on the mode
+            if (body.classList.contains('dark-mode')) {
+                darkModeBtn.textContent = '☀️';
+            } else {
+                darkModeBtn.textContent = '🌙';
+            }
+        });
+
+        // --- 2. MOBILE HAMBURGER MENU ---
+        const hamburgerBtn = document.getElementById('hamburgerMenu');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburgerBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // --- 3. IMAGE GALLERY LIGHTBOX ---
+        const lightbox = document.getElementById('imageLightbox');
+        const expandedImg = document.getElementById('expandedImg');
+        const closeBtn = document.getElementById('closeLightbox');
+        const galleryImages = document.querySelectorAll('.gallery-img');
+
+        // Loop through each image and add a click event
+        galleryImages.forEach(img => {
+            img.addEventListener('click', function() {
+                lightbox.style.display = 'flex'; // Show the lightbox
+                expandedImg.src = this.src; // Set the big image to the one clicked
+            });
+        });
+
+        // Close the lightbox when the X is clicked
+        closeBtn.addEventListener('click', () => {
+            lightbox.style.display = 'none';
+        });
+
+        // Close the lightbox if the user clicks anywhere outside the image
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
