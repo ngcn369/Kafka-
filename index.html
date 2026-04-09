@@ -1,290 +1,397 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NGCN | Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #000000;
-            --card-bg: #0a0a0a;
-            --card-border: #1a1a1a;
-            --text-main: #ffffff;
-            --text-muted: #888888;
-            --accent: #222222;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-        }
-
-        /* --- NAVIGATION --- */
-        nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 5%; max-width: 1400px; margin: 0 auto;
-        }
-        .logo {
-            background: #222; color: white; width: 40px; height: 40px;
-            display: flex; justify-content: center; align-items: center;
-            border-radius: 50%; font-weight: 700; font-size: 0.9rem;
-        }
-        .nav-links {
-            background: var(--card-bg); border: 1px solid var(--card-border);
-            padding: 10px 30px; border-radius: 50px;
-            display: flex; gap: 30px;
-        }
-        .nav-links a {
-            color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: 0.3s;
-        }
-        .nav-links a:hover, .nav-links a.active { color: white; }
-        .nav-links a.active { border-bottom: 2px solid white; padding-bottom: 2px; }
-        
-        .btn-talk {
-            background: var(--card-bg); border: 1px solid var(--card-border);
-            color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer;
-        }
-
-        /* --- CONTAINER --- */
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 100px 0; gap: 50px;
-        }
-        .hero-text { flex: 1; }
-        .hero-text p.intro { color: var(--text-muted); margin-bottom: 10px; }
-        .hero-text h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; font-weight: 700; }
-        .hero-text p.desc { color: var(--text-muted); margin-bottom: 30px; max-width: 450px; }
-        
-        .btn-download {
-            background: var(--card-bg); border: 1px solid var(--card-border);
-            color: white; padding: 12px 24px; border-radius: 8px; cursor: pointer;
-            font-weight: 600; margin-bottom: 30px; display: inline-block;
-        }
-        .social-icons { display: flex; gap: 15px; font-weight: bold; color: var(--text-muted); }
-        
-        .hero-image { flex: 1; text-align: right; }
-        .hero-image img {
-            max-width: 100%; height: auto; border-radius: 20px; filter: grayscale(100%);
-        }
-
-        /* --- SECTION HEADERS --- */
-        .section-header { text-align: center; margin: 80px 0 40px; }
-        .section-header h2 { font-size: 2.2rem; margin-bottom: 5px; }
-        .section-header p { color: var(--text-muted); font-size: 0.9rem; }
-
-        /* --- GRID LAYOUT (4 COLUMNS) --- */
-        .grid-4 {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;
-        }
-
-        /* --- CARDS --- */
-        .card {
-            background: var(--card-bg); border: 1px solid var(--card-border);
-            border-radius: 16px; padding: 30px 20px; display: flex; flex-direction: column;
-        }
-        .card h3 { font-size: 1.2rem; margin-bottom: 15px; }
-        .card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; flex-grow: 1; }
-        
-        .tags-vertical { display: flex; flex-direction: column; gap: 10px; }
-        .tags-horizontal { display: flex; flex-wrap: wrap; gap: 10px; }
-        
-        .tag {
-            background: #111; border: 1px solid #222; color: #ccc;
-            padding: 8px 15px; border-radius: 8px; font-size: 0.8rem; text-align: center;
-        }
-
-        /* --- ABOUT ME SECTION --- */
-        .about-desc { text-align: center; color: var(--text-muted); max-width: 800px; margin: 0 auto 40px; }
-        .approach-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 50px;}
-        .approach-item {
-            background: var(--card-bg); border: 1px solid var(--card-border);
-            padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 15px;
-        }
-        .approach-num {
-            background: white; color: black; width: 30px; height: 30px;
-            display: flex; justify-content: center; align-items: center; border-radius: 6px; font-weight: bold; font-size: 0.8rem;
-        }
-        
-        .stats-row { display: flex; justify-content: center; gap: 60px; text-align: center; margin-bottom: 80px; }
-        .stat h4 { font-size: 2.5rem; margin-bottom: 5px; }
-        .stat p { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 800px) {
-            .hero { flex-direction: column; text-align: center; padding: 50px 0; }
-            .hero-text p.desc { margin: 0 auto 30px; }
-            .nav-links { display: none; } /* Hide center nav on mobile to keep it clean */
-            .stats-row { flex-direction: column; gap: 30px; }
-        }
-    </style>
-</head>
-<body>
-
-    <nav>
-        <div class="logo">NG</div>
-        <div class="nav-links">
-            <a href="#" class="active">Home</a>
-            <a href="#services">Services</a>
-            <a href="#about">About</a>
-            <a href="#skills">Skills</a>
-            <a href="#projects">Projects</a>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <meta name="keywords" content="Document" />
+        <meta name="description" content="Your Description..." />
+        <title>Document</title>
+        <link
+            rel="stylesheet"
+            href="/resources/swiper-js/swiper-bundle.min.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+        <link rel="stylesheet" href="/resources/css/loader.css" />
+        <link rel="stylesheet" href="/resources/css/hamburger.css" />
+        <link rel="stylesheet" href="/resources/css/home.css" />
+        <link rel="stylesheet" href="/resources/css/about.css" />
+        <link rel="stylesheet" href="/resources/css/services.css" />
+        <link rel="stylesheet" href="/resources/css/portfolio.css" />
+        <link rel="stylesheet" href="/resources/css/comments.css" />
+        <link rel="stylesheet" href="/resources/css/contact.css" />
+        <link href="/resources/mapbox-gl/mapbox-gl.css" rel="stylesheet" />
+        <link rel="stylesheet" href="/resources/css/style.css" />
+        <link
+            rel="shortcut icon"
+            href="/resources/img/favicon.ico"
+            type="image/x-icon" />
+    </head>
+    <body onload="loaded()">
+        <div class="loader">
+            <div class="c c1"></div>
+            <div class="c c2"></div>
+            <div class="c c3"></div>
+            <div class="c c4"></div>
+            <div class="c c5"></div>
+            <div class="c c6"></div>
         </div>
-        <button class="btn-talk">Let's Talk</button>
-    </nav>
+        <script>
+            let loader = document.querySelector(".loader");
+            function loaded() {
+                loader.classList.add("remove");
+                setTimeout(() => {
+                    loader.style.display = "none";
+                }, 1000);
+            }
+        </script>
+        <!-- HAMBURGER MENU BUTTON (responsively visible) -->
+        <div class="hamburger">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
 
-    <div class="container">
-        
-        <section class="hero">
-            <div class="hero-text">
-                <p class="intro">I am NGCN</p>
-                <h1>Concept Artist &<br>Web Developer</h1>
-                <p class="desc">Blending thoughtful visual design with clean, responsive development to create digital experiences that look great and perform flawlessly.</p>
-                <div class="btn-download">Download CV</div>
-                <div class="social-icons">
-                    <span>in</span> &nbsp; <span>git</span>
-                </div>
-            </div>
-            <div class="hero-image">
-                <img src="night-alley.jpg" alt="Profile" style="max-height: 400px; object-fit: cover; aspect-ratio: 1/1;">
-            </div>
-        </section>
+        <!-- THE REAL NAVIGATION -->
+        <nav class="navigation">
+            <h1>
+                Shuvro
+                <div></div>
+                <div></div>
+            </h1>
+            <ul>
+                <li><a href="#" onclick="home()">home</a></li>
+                <li>
+                    <a
+                        href="#"
+                        onclick="about(); animate3.play(); animate4.play();"
+                        >about</a
+                    >
+                </li>
+                <li>
+                    <a href="#" onclick="services(); animate6.play();"
+                        >services</a
+                    >
+                </li>
+                <li><a href="#" onclick="portfolio()">portfolio</a></li>
+                <li><a href="#" onclick="comments()">comments</a></li>
+                <li>
+                    <a href="#" onclick="contact(); animate5.play()">contact</a>
+                </li>
+            </ul>
+            <p>
+                &copy; 2024
+                <a
+                    href="https://github.com/shu-vro"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Shuvro</a
+                >.
+            </p>
+        </nav>
 
-        <section id="services">
-            <div class="section-header">
-                <h2>Services</h2>
-                <p>Designing clean scalable responsive websites</p>
-            </div>
-            
-            <div class="grid-4">
-                <div class="card">
-                    <h3>UI/UX Website Design</h3>
-                    <p>Clean, user-focused layouts with clear structure, smooth navigation, and strong visual hierarchy.</p>
-                    <div class="tags-vertical">
-                        <div class="tag">Modern layouts</div>
-                        <div class="tag">Responsive design</div>
+        <div class="container">
+            <div class="layer layer1 active">
+                <div class="home main">
+                    <div class="canvas_container">
+                        <canvas></canvas>
                     </div>
-                </div>
-                
-                <div class="card">
-                    <h3>Frontend Development</h3>
-                    <p>Responsive interfaces using HTML, CSS, and JavaScript for clean, consistent, reliable performance.</p>
-                    <div class="tags-vertical">
-                        <div class="tag">Clean HTML/CSS</div>
-                        <div class="tag">Smooth interactions</div>
-                    </div>
-                </div>
+                    <div class="content-for-home">
+                        <div class="img-container"></div>
+                        <h1 align="center">Shirshen Das Gupta Shuvro</h1>
+                        <div class="social-icons">
+                            <div class="s-icon">
+                                <a href="#">
+                                    <i class="fab fa-facebook"></i>
+                                </a>
+                                <div class="s-name">Facebook</div>
+                            </div>
+                            <div class="s-icon">
+                                <a href="#">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <div class="s-name">Tweeter</div>
+                            </div>
+                            <div class="s-icon">
+                                <a href="#">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <div class="s-name">GitHub</div>
+                            </div>
+                            <div class="s-icon">
+                                <a href="#">
+                                    <i class="fab fa-codepen"></i>
+                                </a>
+                                <div class="s-name">CodePen</div>
+                            </div>
+                            <div class="s-icon">
+                                <a href="#">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <div class="s-name">Instagram</div>
+                            </div>
+                            <div class="s-icon">
+                                <a href="#">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                                <div class="s-name">Email</div>
+                            </div>
+                        </div>
 
-                <div class="card">
-                    <h3>Atmospheric Direction</h3>
-                    <p>Creating immersive visual studies and liminal spaces optimized for digital storytelling.</p>
-                    <div class="tags-vertical">
-                        <div class="tag">Visual pacing</div>
-                        <div class="tag">Asset curation</div>
-                    </div>
-                </div>
+                        <div class="side-nav">
+                            <button
+                                onclick="about(); animate3.play(); animate4.play();">
+                                <span class="w">W</span>
+                                <span class="tooltip"> why you? </span>
+                            </button>
+                            <button onclick="services(); animate6.play();">
+                                <span class="w">W</span>
+                                <span class="tooltip"> what do you do? </span>
+                            </button>
+                            <button onclick="portfolio()">
+                                <span class="w">W</span>
+                                <span class="tooltip">
+                                    what have you done?
+                                </span>
+                            </button>
+                            <button onclick="comments()">
+                                <span class="w">W</span>
+                                <span class="tooltip"> what others say? </span>
+                            </button>
+                            <button onclick="contact(); animate5.play()">
+                                <span class="w">W</span>
+                                <span class="tooltip"> where are you? </span>
+                            </button>
+                        </div>
 
-                <div class="card">
-                    <h3>Digital Deployment</h3>
-                    <p>Lightweight deployment setups with easy updates, fast loading, and scalable environments.</p>
-                    <div class="tags-vertical">
-                        <div class="tag">GitHub integration</div>
-                        <div class="tag">Vercel hosting</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="about">
-            <div class="section-header">
-                <h2>About Me</h2>
-            </div>
-            <p class="about-desc">I'm a developer and artist passionate about crafting clean, intuitive, and responsive digital experiences. I focus on turning ideas into seamless interfaces by understanding user needs, designing thoughtful layouts, and ensuring smooth interactions across devices.</p>
-            
-            <div style="text-align: center; margin-bottom: 20px; font-weight: bold;">My Approach</div>
-            <div class="approach-grid">
-                <div class="approach-item">
-                    <div class="approach-num">01</div>
-                    <span style="font-size: 0.9rem;">Understand users & goals</span>
-                </div>
-                <div class="approach-item">
-                    <div class="approach-num">02</div>
-                    <span style="font-size: 0.9rem;">Create clean UI layouts</span>
-                </div>
-                <div class="approach-item">
-                    <div class="approach-num">03</div>
-                    <span style="font-size: 0.9rem;">Responsive experiences</span>
-                </div>
-            </div>
-
-            <div class="stats-row">
-                <div class="stat">
-                    <h4>02+</h4>
-                    <p>Years Of Experience</p>
-                </div>
-                <div class="stat">
-                    <h4>15+</h4>
-                    <p>Projects Completed</p>
-                </div>
-                <div class="stat">
-                    <h4>05+</h4>
-                    <p>Clients Served</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="skills">
-            <div class="section-header">
-                <h2>Skills</h2>
-                <p>Crafting seamless UI/UX and clean code</p>
-            </div>
-            
-            <div class="grid-4" style="margin-bottom: 100px;">
-                <div class="card">
-                    <h3>Core Skills</h3>
-                    <div class="tags-horizontal">
-                        <div class="tag">UI/UX layout</div>
-                        <div class="tag">Frontend Dev</div>
-                        <div class="tag">Responsive Design</div>
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <h3>Frontend Tech</h3>
-                    <div class="tags-horizontal">
-                        <div class="tag">HTML</div>
-                        <div class="tag">CSS</div>
-                        <div class="tag">JS</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>Design Tools</h3>
-                    <div class="tags-horizontal">
-                        <div class="tag">Figma</div>
-                        <div class="tag">Photoshop</div>
-                        <div class="tag">Photography</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>Tools & Platform</h3>
-                    <div class="tags-horizontal">
-                        <div class="tag">GitHub</div>
-                        <div class="tag">Vercel</div>
-                        <div class="tag">Video Editing</div>
+                        <div class="titles-for-side-nav">
+                            <span></span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+            <div class="layer layer2">
+                <div class="about main">
+                    <!-- SEGMENT FOR STYLING. -->
+                    <div class="styling">
+                        <div class="absolute box"></div>
+                        <div class="absolute circle"></div>
+                        <div class="absolute triangle"></div>
+                        <div class="absolute dots">
+                            <div class="dot dot1"></div>
+                            <div class="dot dot2"></div>
+                            <div class="dot dot3"></div>
+                            <div class="dot dot4"></div>
+                            <div class="dot dot5"></div>
+                            <div class="dot dot6"></div>
+                            <div class="dot dot7"></div>
+                            <div class="dot dot8"></div>
+                            <div class="dot dot9"></div>
+                            <div class="dot dot10"></div>
+                            <div class="dot dot11"></div>
+                            <div class="dot dot12"></div>
+                            <div class="dot dot13"></div>
+                            <div class="dot dot14"></div>
+                            <div class="dot dot15"></div>
+                            <div class="dot dot16"></div>
+                            <div class="dot dot17"></div>
+                            <div class="dot dot18"></div>
+                            <div class="dot dot19"></div>
+                            <div class="dot dot20"></div>
+                            <div class="dot dot21"></div>
+                            <div class="dot dot22"></div>
+                            <div class="dot dot23"></div>
+                            <div class="dot dot24"></div>
+                        </div>
 
-    </div>
-</body>
-</html>
+                        <svg
+                            class="wave absolute"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 1450 320">
+                            <path
+                                fill-opacity="1"
+                                d="M0,320L48,277.3C96,235,192,149,288,122.7C384,96,480,128,576,165.3C672,203,768,245,864,234.7C960,224,1056,160,1152,112C1248,64,1344,32,1392,16L1440,0L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+                        </svg>
+
+                        <svg
+                            class="wave absolute opposite"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 1450 320">
+                            <path
+                                fill-opacity="1"
+                                d="M0,224L48,213.3C96,203,192,181,288,192C384,203,480,245,576,218.7C672,192,768,96,864,64C960,32,1056,64,1152,101.3C1248,139,1344,181,1392,202.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+                        </svg>
+                    </div>
+
+                    <!-- REAL CONTENT -->
+                    <div class="wrapper">
+                        <div class="face face1">
+                            <div class="content">
+                                <p>Hello,</p>
+                                <h1>I'm Shuvro</h1>
+                                <p class="text">
+                                    I am a Web Developer, and I'm very
+                                    passionate and dedicated to my work With 10
+                                    years experience as a professional Web
+                                    Developer, I have acquired the skills and
+                                    knowledge necessary to make your project a
+                                    success I enjoy every step of the design
+                                    process, from discussion and collaboration.
+                                </p>
+                                <a
+                                    class="button download"
+                                    href="/resources/img/bg1.png"
+                                    download="shuvro_cv"
+                                    >Download CV</a
+                                >
+                                <a
+                                    class="button hire"
+                                    href="#"
+                                    class="hire"
+                                    onclick="contact(); animate5.play()"
+                                    >Hire Me.</a
+                                >
+                            </div>
+                        </div>
+                        <div class="face face2"></div>
+                    </div>
+
+                    <!-- THE NAVIGATION OF ABOUT -->
+                    <nav class="about_nav">
+                        <ul>
+                            <li>
+                                <a class="active" href="#" data-text="one"
+                                    >Skills</a
+                                >
+                            </li>
+                            <li>
+                                <a href="#" data-text="two">Experience</a>
+                            </li>
+                            <li>
+                                <a href="#" data-text="three">Education</a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <div class="about_container">
+                        <!-- SKILL BOX -->
+                        <div class="skills">
+                            <div class="skill">
+                                <div class="name">HTML5</div>
+                                <div class="value" style="left: 90%">90%</div>
+                                <div class="percent">
+                                    <div
+                                        class="progress"
+                                        style="width: 90%"></div>
+                                </div>
+                            </div>
+                            <div class="skill">
+                                <div class="name">CSS3</div>
+                                <div class="value" style="left: 75%">75%</div>
+                                <div class="percent">
+                                    <div
+                                        class="progress"
+                                        style="width: 75%"></div>
+                                </div>
+                            </div>
+                            <div class="skill">
+                                <div class="name">JavaScript</div>
+                                <div class="value" style="left: 65%">65%</div>
+                                <div class="percent">
+                                    <div
+                                        class="progress"
+                                        style="width: 65%"></div>
+                                </div>
+                            </div>
+                            <div class="skill">
+                                <div class="name">PHP</div>
+                                <div class="value" style="left: 50%">50%</div>
+                                <div class="percent">
+                                    <div
+                                        class="progress"
+                                        style="width: 50%"></div>
+                                </div>
+                            </div>
+                            <div class="skill">
+                                <div class="name">Jquery</div>
+                                <div class="value" style="left: 45%">45%</div>
+                                <div class="percent">
+                                    <div
+                                        class="progress"
+                                        style="width: 45%"></div>
+                                </div>
+                            </div>
+                            <div class="skill">
+                                <div class="name">C++</div>
+                                <div class="value" style="left: 55%">55%</div>
+                                <div class="percent">
+                                    <div
+                                        class="progress"
+                                        style="width: 55%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- EXPERIENCE -->
+                        <div class="experience">
+                            <div class="middle_line"></div>
+                            <div class="cover">
+                                <i class="job_box fas fa-briefcase"></i>
+                                <i class="date">Sep 2020 - Present</i>
+                                <h2>Full Stack Developer</h2>
+                                <i class="name_company">Company Name</i>
+                                <article class="text_hidden">
+                                    Lorem ipsum dolor sit amet consectetur
+                                    adipisicing elit. Ut sint magnam ipsam
+                                    eveniet omnis nemo commodi dolorum neque
+                                    fugiat, soluta tempora vitae error magni.
+                                    Lorem ipsum dolor sit amet consectetur
+                                    adipisicing elit. Quaerat est amet
+                                    voluptatibus, nam perferendis provident
+                                    veritatis cum, dolorum eaque voluptates
+                                    asperiores, nostrum voluptatum. Autem
+                                    incidunt praesentium tempora, minus suscipit
+                                    fugiat?
+                                </article>
+                            </div>
+                            <div class="whitespace"></div>
+                            <div class="whitespace"></div>
+                            <div class="cover">
+                                <i class="job_box fas fa-briefcase"></i>
+                                <i class="date">Apr 2020 - Jan 2019</i>
+                                <h2>Full Stack Developer</h2>
+                                <i class="name_company">Company Name</i>
+                                <article class="text_hidden">
+                                    Lorem ipsum dolor sit amet consectetur
+                                    adipisicing elit. Ut sint magnam ipsam
+                                    eveniet omnis nemo commodi dolorum neque
+                                    fugiat, soluta tempora vitae error magni.
+                                </article>
+                            </div>
+                            <div class="cover">
+                                <i class="job_box fas fa-briefcase"></i>
+                                <i class="date">Feb 2018 - Apr 2020</i>
+                                <h2>Full Stack Developer</h2>
+                                <i class="name_company">Company Name</i>
+                                <article class="text_hidden">
+                                    Lorem ipsum dolor sit amet consectetur
+                                    adipisicing elit. Ut sint magnam ipsam
+                                    eveniet omnis nemo commodi dolorum neque
+                                    fugiat, soluta tempora vitae error magni.
+                                </article>
+                            </div>
+                            <div class="whitespace"></div>
+                            <div class="whitespace"></div>
+                            <div class="cover">
+                                <i class="job_box fas fa-briefcase"></i>
+                                <i class="date">Aug 2014 - Feb 2018</i>
+                                <h2>Full Stack Developer</h2>
+                                <i class="name_company">Company Name</i>
+                                <article class="text_hidden">
+                                    Lorem ipsum dolor sit amet consectetur
+                                    adipisicing elit. Ut sint magnam ipsam
+                                    eveniet omnis nemo commodi dolorum neque
+                                    fugiat, soluta tempora vitae error magni.
+                                </article>
+                            </div>
