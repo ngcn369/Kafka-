@@ -7,77 +7,83 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #ffffff;
-            --secondary: #000000;
+            --bg: #ffffff;
+            --text: #000000;
             --card-border: #f0f0f0;
+            --nav-bg: rgba(255, 255, 255, 0.8);
         }
 
-        /* Prevent side-to-side shaking */
-        html, body {
-            overflow-x: hidden;
-            width: 100%;
-            margin: 0; padding: 0;
-            background-color: var(--primary);
-            font-family: 'Inter', sans-serif;
+        [data-theme="dark"] {
+            --bg: #0a0a0a;
+            --text: #ffffff;
+            --card-border: #222222;
+            --nav-bg: rgba(10, 10, 10, 0.8);
         }
 
-        header {
-            background: var(--secondary);
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
+        html, body { 
+            overflow-x: hidden; width: 100%; margin: 0; padding: 0; 
+            background-color: var(--bg); color: var(--text);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        header h1 { font-size: 3.5rem; margin: 0; font-weight: 800; letter-spacing: -3px; }
+        /* Fixed Header with Menu & Toggle */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: var(--nav-bg); backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 25px; box-sizing: border-box;
+            border-bottom: 1px solid var(--card-border);
+        }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -1px; }
 
-        .search-wrapper { margin-top: -30px; text-align: center; margin-bottom: 50px; }
+        .nav-controls { display: flex; align-items: center; gap: 20px; }
+
+        #themeToggle, .menu-btn {
+            background: none; border: 1px solid var(--text); color: var(--text);
+            padding: 5px 12px; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 0.8rem;
+        }
+
+        .menu-btn { border: none; font-size: 1.5rem; padding: 0; }
+
+        /* Full Screen Menu Overlay */
+        .menu-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg); z-index: 2000; flex-direction: column;
+            justify-content: center; align-items: center; gap: 30px;
+        }
+
+        .menu-overlay a {
+            text-decoration: none; color: var(--text); font-size: 2rem; font-weight: 800;
+        }
+
+        /* Main Content */
+        main { max-width: 1200px; margin: 100px auto 50px; padding: 0 20px; }
         
+        header h1 { font-size: 3.5rem; margin: 40px 0 10px; font-weight: 800; letter-spacing: -3px; text-align: center;}
+
+        .search-wrapper { text-align: center; margin-bottom: 50px; }
         #searchInput {
-            padding: 18px 30px; width: 85%; max-width: 500px;
-            border-radius: 50px; border: 3px solid var(--secondary);
-            font-size: 1.1rem; font-weight: 600;
+            padding: 15px 25px; width: 90%; max-width: 500px;
+            border-radius: 50px; border: 2px solid var(--text);
+            background: var(--bg); color: var(--text); font-weight: 600;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-        }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
 
-        .card {
-            background: white;
-            border: 1px solid var(--card-border);
-            border-radius: 15px;
-            overflow: hidden;
-            cursor: pointer;
-        }
+        .card { background: var(--bg); border: 1px solid var(--card-border); border-radius: 15px; overflow: hidden; }
 
         .media-content { width: 100%; height: 250px; object-fit: cover; display: block; }
 
         .card-content { padding: 20px; }
-        .card-content h3 { margin: 0; font-size: 1.2rem; }
 
-        /* Lightbox - Locked & Stable */
+        /* Lightbox */
         .lightbox {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.98);
-            justify-content: center; align-items: center;
-            touch-action: none; /* Prevents scrolling while open */
+            display: none; position: fixed; z-index: 9999; top: 0; left: 0;
+            width: 100vw; height: 100vh; background: rgba(0,0,0,0.98);
+            justify-content: center; align-items: center; touch-action: none;
         }
-
-        .lightbox-content {
-            max-width: 100%;
-            max-height: 90vh;
-            object-fit: contain;
-        }
-
-        /* Stop body scroll when lightbox is open */
+        .lightbox-content { max-width: 100%; max-height: 90vh; object-fit: contain; }
         body.no-scroll { overflow: hidden; position: fixed; width: 100%; }
 
         @media (max-width: 600px) { header h1 { font-size: 2.5rem; } }
@@ -85,71 +91,90 @@
 </head>
 <body>
 
-<header><h1>DIRECTORY.</h1></header>
+    <nav>
+        <div class="logo">NGCN STUDIOS</div>
+        <div class="nav-controls">
+            <button id="themeToggle">DARK</button>
+            <button class="menu-btn" id="openMenu">☰</button>
+        </div>
+    </nav>
 
-<div class="search-wrapper">
-    <input type="text" id="searchInput" placeholder="Search visuals...">
-</div>
+    <div class="menu-overlay" id="menuOverlay">
+        <button class="menu-btn" id="closeMenu" style="position: absolute; top: 20px; right: 25px;">✕</button>
+        <a href="index.html">HOME</a>
+        <a href="#">ATMOSPHERE</a>
+        <a href="#">PROJECTS</a>
+        <a href="#">CONTACT</a>
+    </div>
 
-<div class="container">
-    <div class="grid">
-        <div class="card">
-            <video class="media-content" controls preload="metadata">
-                <source src="suburban-drift.mp4" type="video/mp4">
-            </video>
-            <div class="card-content"><h3>Suburban Drift</h3></div>
+    <main>
+        <header><h1>DIRECTORY.</h1></header>
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" placeholder="Search visuals...">
         </div>
 
-        <div class="card"><img src="night-alley.jpg" class="media-content popup-trigger"><div class="card-content"><h3>Night Alley</h3></div></div>
-        <div class="card"><img src="pink-sky.jpg" class="media-content popup-trigger"><div class="card-content"><h3>Pink Sky</h3></div></div>
-        <div class="card"><img src="sunset-dog.jpg" class="media-content popup-trigger"><div class="card-content"><h3>Golden Hour</h3></div></div>
-        <div class="card"><img src="street-lamp.jpg" class="media-content popup-trigger"><div class="card-content"><h3>Street Lamp</h3></div></div>
-    </div>
-</div>
+        <div class="grid">
+            <div class="card">
+                <video class="media-content" controls preload="metadata">
+                    <source src="suburban-drift.mp4" type="video/mp4">
+                </video>
+                <div class="card-content"><h3>Suburban Drift</h3></div>
+            </div>
+            <div class="card"><img src="night-alley.jpg" class="media-content popup-trigger"><div class="card-content"><h3>Night Alley</h3></div></div>
+            <div class="card"><img src="pink-sky.jpg" class="media-content popup-trigger"><div class="card-content"><h3>Pink Sky</h3></div></div>
+            <div class="card"><img src="sunset-dog.jpg" class="media-content popup-trigger"><div class="card-content"><h3>Golden Hour</h3></div></div>
+            <div class="card"><img src="street-lamp.jpg" class="media-content popup-trigger"><div class="card-content"><h3>Street Lamp</h3></div></div>
+        </div>
+    </main>
 
-<div id="imageLightbox" class="lightbox">
-    <img class="lightbox-content" id="expandedImg">
-</div>
+    <div id="imageLightbox" class="lightbox">
+        <img class="lightbox-content" id="expandedImg">
+    </div>
 
 <script>
+    // 1. Dark/Light Mode
+    const themeBtn = document.getElementById('themeToggle');
+    themeBtn.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        themeBtn.textContent = newTheme === 'dark' ? 'LIGHT' : 'DARK';
+    });
+
+    // 2. Hamburger Menu Logic
+    const menu = document.getElementById('menuOverlay');
+    document.getElementById('openMenu').addEventListener('click', () => menu.style.display = 'flex');
+    document.getElementById('closeMenu').addEventListener('click', () => menu.style.display = 'none');
+
+    // 3. Lightbox + Back Button Logic
     const lightbox = document.getElementById('imageLightbox');
     const expandedImg = document.getElementById('expandedImg');
 
-    // Function to OPEN Lightbox
     function openLightbox(src) {
         expandedImg.src = src;
         lightbox.style.display = 'flex';
         document.body.classList.add('no-scroll');
-        
-        // This trick adds a "fake" page to browser history
         history.pushState({ lightbox: true }, "");
     }
 
-    // Function to CLOSE Lightbox
     function closeLightbox() {
         lightbox.style.display = 'none';
         document.body.classList.remove('no-scroll');
+        menu.style.display = 'none'; // Ensure menu closes on back too
     }
 
-    // Listen for Back Button
-    window.onpopstate = function(event) {
-        // If back is pressed and lightbox is open, just close it
-        closeLightbox();
-    };
+    window.onpopstate = () => closeLightbox();
 
     document.querySelectorAll('.popup-trigger').forEach(img => {
         img.addEventListener('click', () => openLightbox(img.src));
     });
 
     lightbox.addEventListener('click', () => {
-        // Close manually and remove the "fake" page from history
         closeLightbox();
-        if (history.state && history.state.lightbox) {
-            history.back();
-        }
+        if (history.state?.lightbox) history.back();
     });
 
-    // Simple Search
+    // 4. Search Logic
     document.getElementById('searchInput').addEventListener('input', (e) => {
         const val = e.target.value.toLowerCase();
         document.querySelectorAll('.card').forEach(card => {
