@@ -1,397 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <meta name="keywords" content="Document" />
-        <meta name="description" content="Your Description..." />
-        <title>Document</title>
-        <link
-            rel="stylesheet"
-            href="/resources/swiper-js/swiper-bundle.min.css" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
-        <link rel="stylesheet" href="/resources/css/loader.css" />
-        <link rel="stylesheet" href="/resources/css/hamburger.css" />
-        <link rel="stylesheet" href="/resources/css/home.css" />
-        <link rel="stylesheet" href="/resources/css/about.css" />
-        <link rel="stylesheet" href="/resources/css/services.css" />
-        <link rel="stylesheet" href="/resources/css/portfolio.css" />
-        <link rel="stylesheet" href="/resources/css/comments.css" />
-        <link rel="stylesheet" href="/resources/css/contact.css" />
-        <link href="/resources/mapbox-gl/mapbox-gl.css" rel="stylesheet" />
-        <link rel="stylesheet" href="/resources/css/style.css" />
-        <link
-            rel="shortcut icon"
-            href="/resources/img/favicon.ico"
-            type="image/x-icon" />
-    </head>
-    <body onload="loaded()">
-        <div class="loader">
-            <div class="c c1"></div>
-            <div class="c c2"></div>
-            <div class="c c3"></div>
-            <div class="c c4"></div>
-            <div class="c c5"></div>
-            <div class="c c6"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>N1X | Developer</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <h1 class="logo">N1X<span>.</span></h1>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button id="theme-toggle" class="theme-btn"><i class="fas fa-moon"></i></button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>Hi, I'm <span class="highlight">N1X</span></h1>
+      <p class="typing">Building cool things with code</p>
+      <div class="hero-buttons">
+        <a href="#projects" class="btn primary">View Projects</a>
+        <a href="#contact" class="btn secondary">Get in touch</a>
+      </div>
+      <div class="socials">
+        <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="glass-card floating"></div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section">
+    <h2>About Me</h2>
+    <div class="about-content">
+      <div class="about-text">
+        <p>I'm a passionate developer from Dehradun who loves creating beautiful, functional web experiences. I enjoy turning ideas into reality with modern technologies.</p>
+        <p>When I'm not coding, you'll find me exploring new tech, hiking in the mountains, or drinking chai.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="section">
+    <h2>Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-item"><span>HTML / CSS</span><div class="progress"><div class="bar" style="width:95%"></div></div></div>
+      <div class="skill-item"><span>JavaScript</span><div class="progress"><div class="bar" style="width:90%"></div></div></div>
+      <div class="skill-item"><span>React / Next.js</span><div class="progress"><div class="bar" style="width:85%"></div></div></div>
+      <div class="skill-item"><span>Python</span><div class="progress"><div class="bar" style="width:80%"></div></div></div>
+      <div class="skill-item"><span>Tailwind / GSAP</span><div class="progress"><div class="bar" style="width:88%"></div></div></div>
+      <div class="skill-item"><span>Node.js</span><div class="progress"><div class="bar" style="width:75%"></div></div></div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="section">
+    <h2>Featured Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="card-inner">
+          <h3>Neon Dashboard</h3>
+          <p>Real-time analytics dashboard with glassmorphism and live charts.</p>
+          <div class="tags">React • Tailwind • Chart.js</div>
+          <a href="#" class="project-link">Live Demo →</a>
         </div>
-        <script>
-            let loader = document.querySelector(".loader");
-            function loaded() {
-                loader.classList.add("remove");
-                setTimeout(() => {
-                    loader.style.display = "none";
-                }, 1000);
-            }
-        </script>
-        <!-- HAMBURGER MENU BUTTON (responsively visible) -->
-        <div class="hamburger">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
+      </div>
+      <div class="project-card">
+        <div class="card-inner">
+          <h3>AI Image Generator</h3>
+          <p>Web app that generates images using modern AI APIs.</p>
+          <div class="tags">Next.js • OpenAI • Framer Motion</div>
+          <a href="#" class="project-link">Live Demo →</a>
         </div>
+      </div>
+      <div class="project-card">
+        <div class="card-inner">
+          <h3>Mountain Explorer</h3>
+          <p>Interactive map and blog for Himalayan adventures.</p>
+          <div class="tags">Three.js • GSAP • Leaflet</div>
+          <a href="#" class="project-link">Live Demo →</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <!-- THE REAL NAVIGATION -->
-        <nav class="navigation">
-            <h1>
-                Shuvro
-                <div></div>
-                <div></div>
-            </h1>
-            <ul>
-                <li><a href="#" onclick="home()">home</a></li>
-                <li>
-                    <a
-                        href="#"
-                        onclick="about(); animate3.play(); animate4.play();"
-                        >about</a
-                    >
-                </li>
-                <li>
-                    <a href="#" onclick="services(); animate6.play();"
-                        >services</a
-                    >
-                </li>
-                <li><a href="#" onclick="portfolio()">portfolio</a></li>
-                <li><a href="#" onclick="comments()">comments</a></li>
-                <li>
-                    <a href="#" onclick="contact(); animate5.play()">contact</a>
-                </li>
-            </ul>
-            <p>
-                &copy; 2024
-                <a
-                    href="https://github.com/shu-vro"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >Shuvro</a
-                >.
-            </p>
-        </nav>
+  <!-- Contact -->
+  <section id="contact" class="section">
+    <h2>Get In Touch</h2>
+    <form id="contact-form" class="contact-form">
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Your Email" required />
+      <textarea placeholder="Your Message" rows="6" required></textarea>
+      <button type="submit" class="btn primary">Send Message</button>
+    </form>
+  </section>
 
-        <div class="container">
-            <div class="layer layer1 active">
-                <div class="home main">
-                    <div class="canvas_container">
-                        <canvas></canvas>
-                    </div>
-                    <div class="content-for-home">
-                        <div class="img-container"></div>
-                        <h1 align="center">Shirshen Das Gupta Shuvro</h1>
-                        <div class="social-icons">
-                            <div class="s-icon">
-                                <a href="#">
-                                    <i class="fab fa-facebook"></i>
-                                </a>
-                                <div class="s-name">Facebook</div>
-                            </div>
-                            <div class="s-icon">
-                                <a href="#">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <div class="s-name">Tweeter</div>
-                            </div>
-                            <div class="s-icon">
-                                <a href="#">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                                <div class="s-name">GitHub</div>
-                            </div>
-                            <div class="s-icon">
-                                <a href="#">
-                                    <i class="fab fa-codepen"></i>
-                                </a>
-                                <div class="s-name">CodePen</div>
-                            </div>
-                            <div class="s-icon">
-                                <a href="#">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <div class="s-name">Instagram</div>
-                            </div>
-                            <div class="s-icon">
-                                <a href="#">
-                                    <i class="fas fa-envelope"></i>
-                                </a>
-                                <div class="s-name">Email</div>
-                            </div>
-                        </div>
+  <footer>
+    <p>&copy; 2026 N1X. Made with ❤️ and lots of chai.</p>
+  </footer>
 
-                        <div class="side-nav">
-                            <button
-                                onclick="about(); animate3.play(); animate4.play();">
-                                <span class="w">W</span>
-                                <span class="tooltip"> why you? </span>
-                            </button>
-                            <button onclick="services(); animate6.play();">
-                                <span class="w">W</span>
-                                <span class="tooltip"> what do you do? </span>
-                            </button>
-                            <button onclick="portfolio()">
-                                <span class="w">W</span>
-                                <span class="tooltip">
-                                    what have you done?
-                                </span>
-                            </button>
-                            <button onclick="comments()">
-                                <span class="w">W</span>
-                                <span class="tooltip"> what others say? </span>
-                            </button>
-                            <button onclick="contact(); animate5.play()">
-                                <span class="w">W</span>
-                                <span class="tooltip"> where are you? </span>
-                            </button>
-                        </div>
-
-                        <div class="titles-for-side-nav">
-                            <span></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="layer layer2">
-                <div class="about main">
-                    <!-- SEGMENT FOR STYLING. -->
-                    <div class="styling">
-                        <div class="absolute box"></div>
-                        <div class="absolute circle"></div>
-                        <div class="absolute triangle"></div>
-                        <div class="absolute dots">
-                            <div class="dot dot1"></div>
-                            <div class="dot dot2"></div>
-                            <div class="dot dot3"></div>
-                            <div class="dot dot4"></div>
-                            <div class="dot dot5"></div>
-                            <div class="dot dot6"></div>
-                            <div class="dot dot7"></div>
-                            <div class="dot dot8"></div>
-                            <div class="dot dot9"></div>
-                            <div class="dot dot10"></div>
-                            <div class="dot dot11"></div>
-                            <div class="dot dot12"></div>
-                            <div class="dot dot13"></div>
-                            <div class="dot dot14"></div>
-                            <div class="dot dot15"></div>
-                            <div class="dot dot16"></div>
-                            <div class="dot dot17"></div>
-                            <div class="dot dot18"></div>
-                            <div class="dot dot19"></div>
-                            <div class="dot dot20"></div>
-                            <div class="dot dot21"></div>
-                            <div class="dot dot22"></div>
-                            <div class="dot dot23"></div>
-                            <div class="dot dot24"></div>
-                        </div>
-
-                        <svg
-                            class="wave absolute"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 1450 320">
-                            <path
-                                fill-opacity="1"
-                                d="M0,320L48,277.3C96,235,192,149,288,122.7C384,96,480,128,576,165.3C672,203,768,245,864,234.7C960,224,1056,160,1152,112C1248,64,1344,32,1392,16L1440,0L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-                        </svg>
-
-                        <svg
-                            class="wave absolute opposite"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 1450 320">
-                            <path
-                                fill-opacity="1"
-                                d="M0,224L48,213.3C96,203,192,181,288,192C384,203,480,245,576,218.7C672,192,768,96,864,64C960,32,1056,64,1152,101.3C1248,139,1344,181,1392,202.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-                        </svg>
-                    </div>
-
-                    <!-- REAL CONTENT -->
-                    <div class="wrapper">
-                        <div class="face face1">
-                            <div class="content">
-                                <p>Hello,</p>
-                                <h1>I'm Shuvro</h1>
-                                <p class="text">
-                                    I am a Web Developer, and I'm very
-                                    passionate and dedicated to my work With 10
-                                    years experience as a professional Web
-                                    Developer, I have acquired the skills and
-                                    knowledge necessary to make your project a
-                                    success I enjoy every step of the design
-                                    process, from discussion and collaboration.
-                                </p>
-                                <a
-                                    class="button download"
-                                    href="/resources/img/bg1.png"
-                                    download="shuvro_cv"
-                                    >Download CV</a
-                                >
-                                <a
-                                    class="button hire"
-                                    href="#"
-                                    class="hire"
-                                    onclick="contact(); animate5.play()"
-                                    >Hire Me.</a
-                                >
-                            </div>
-                        </div>
-                        <div class="face face2"></div>
-                    </div>
-
-                    <!-- THE NAVIGATION OF ABOUT -->
-                    <nav class="about_nav">
-                        <ul>
-                            <li>
-                                <a class="active" href="#" data-text="one"
-                                    >Skills</a
-                                >
-                            </li>
-                            <li>
-                                <a href="#" data-text="two">Experience</a>
-                            </li>
-                            <li>
-                                <a href="#" data-text="three">Education</a>
-                            </li>
-                        </ul>
-                    </nav>
-
-                    <div class="about_container">
-                        <!-- SKILL BOX -->
-                        <div class="skills">
-                            <div class="skill">
-                                <div class="name">HTML5</div>
-                                <div class="value" style="left: 90%">90%</div>
-                                <div class="percent">
-                                    <div
-                                        class="progress"
-                                        style="width: 90%"></div>
-                                </div>
-                            </div>
-                            <div class="skill">
-                                <div class="name">CSS3</div>
-                                <div class="value" style="left: 75%">75%</div>
-                                <div class="percent">
-                                    <div
-                                        class="progress"
-                                        style="width: 75%"></div>
-                                </div>
-                            </div>
-                            <div class="skill">
-                                <div class="name">JavaScript</div>
-                                <div class="value" style="left: 65%">65%</div>
-                                <div class="percent">
-                                    <div
-                                        class="progress"
-                                        style="width: 65%"></div>
-                                </div>
-                            </div>
-                            <div class="skill">
-                                <div class="name">PHP</div>
-                                <div class="value" style="left: 50%">50%</div>
-                                <div class="percent">
-                                    <div
-                                        class="progress"
-                                        style="width: 50%"></div>
-                                </div>
-                            </div>
-                            <div class="skill">
-                                <div class="name">Jquery</div>
-                                <div class="value" style="left: 45%">45%</div>
-                                <div class="percent">
-                                    <div
-                                        class="progress"
-                                        style="width: 45%"></div>
-                                </div>
-                            </div>
-                            <div class="skill">
-                                <div class="name">C++</div>
-                                <div class="value" style="left: 55%">55%</div>
-                                <div class="percent">
-                                    <div
-                                        class="progress"
-                                        style="width: 55%"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- EXPERIENCE -->
-                        <div class="experience">
-                            <div class="middle_line"></div>
-                            <div class="cover">
-                                <i class="job_box fas fa-briefcase"></i>
-                                <i class="date">Sep 2020 - Present</i>
-                                <h2>Full Stack Developer</h2>
-                                <i class="name_company">Company Name</i>
-                                <article class="text_hidden">
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Ut sint magnam ipsam
-                                    eveniet omnis nemo commodi dolorum neque
-                                    fugiat, soluta tempora vitae error magni.
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Quaerat est amet
-                                    voluptatibus, nam perferendis provident
-                                    veritatis cum, dolorum eaque voluptates
-                                    asperiores, nostrum voluptatum. Autem
-                                    incidunt praesentium tempora, minus suscipit
-                                    fugiat?
-                                </article>
-                            </div>
-                            <div class="whitespace"></div>
-                            <div class="whitespace"></div>
-                            <div class="cover">
-                                <i class="job_box fas fa-briefcase"></i>
-                                <i class="date">Apr 2020 - Jan 2019</i>
-                                <h2>Full Stack Developer</h2>
-                                <i class="name_company">Company Name</i>
-                                <article class="text_hidden">
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Ut sint magnam ipsam
-                                    eveniet omnis nemo commodi dolorum neque
-                                    fugiat, soluta tempora vitae error magni.
-                                </article>
-                            </div>
-                            <div class="cover">
-                                <i class="job_box fas fa-briefcase"></i>
-                                <i class="date">Feb 2018 - Apr 2020</i>
-                                <h2>Full Stack Developer</h2>
-                                <i class="name_company">Company Name</i>
-                                <article class="text_hidden">
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Ut sint magnam ipsam
-                                    eveniet omnis nemo commodi dolorum neque
-                                    fugiat, soluta tempora vitae error magni.
-                                </article>
-                            </div>
-                            <div class="whitespace"></div>
-                            <div class="whitespace"></div>
-                            <div class="cover">
-                                <i class="job_box fas fa-briefcase"></i>
-                                <i class="date">Aug 2014 - Feb 2018</i>
-                                <h2>Full Stack Developer</h2>
-                                <i class="name_company">Company Name</i>
-                                <article class="text_hidden">
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Ut sint magnam ipsam
-                                    eveniet omnis nemo commodi dolorum neque
-                                    fugiat, soluta tempora vitae error magni.
-                                </article>
-                            </div>
+  <script src="script.js"></script>
+</body>
+</html>
