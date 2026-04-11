@@ -1,119 +1,381 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>N1X | Developer</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Dostoevsky Archive | Official Free Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #f9f7f1; /* Parchment/Book paper color */
+            --text-color: #1a1a1a;
+            --accent-color: #8b0000; /* Deep Russian Red */
+            --ui-text: #4a4a4a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER --- */
+        header {
+            text-align: center;
+            padding: 40px 20px 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-family: 'Crimson Text', serif;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--ui-text);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* --- LIBRARY VIEW --- */
+        #library-view {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .book-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-color: var(--accent-color);
+        }
+
+        .book-cover {
+            height: 200px;
+            background: #222;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-family: 'Crimson Text', serif;
+            font-size: 1.2rem;
+            padding: 20px;
+            border: 2px solid #111;
+        }
+
+        .book-card h3 {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        /* --- READER VIEW --- */
+        #reader-view {
+            display: none;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+        }
+
+        .reader-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--ui-text);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn:hover { color: var(--accent-color); }
+
+        .reader-instructions {
+            background: rgba(139, 0, 0, 0.05);
+            border-left: 3px solid var(--accent-color);
+            padding: 15px;
+            margin-bottom: 40px;
+            font-size: 0.9rem;
+            color: var(--ui-text);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .book-text {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .book-text p {
+            text-indent: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- INTERACTIVE WORDS --- */
+        .hard-word {
+            text-decoration: underline dotted var(--accent-color);
+            text-underline-offset: 4px;
+            cursor: pointer;
+            position: relative;
+            /* Prevent native mobile context menu from interrupting long-press */
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .hard-word.active {
+            background-color: rgba(139, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+
+        /* --- TOOLTIP (DICTIONARY) --- */
+        #dictionary-tooltip {
+            position: absolute;
+            background: #111;
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            max-width: 250px;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(10px) translateX(-50%);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            text-align: left;
+            line-height: 1.4;
+        }
+
+        #dictionary-tooltip.visible {
+            opacity: 1;
+            transform: translateY(0) translateX(-50%);
+        }
+
+        .word-title {
+            color: var(--accent-color);
+            font-weight: 600;
+            text-transform: capitalize;
+            margin-bottom: 4px;
+            display: block;
+            font-family: 'Crimson Text', serif;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.8rem; }
+            .book-text { font-size: 1.15rem; }
+        }
+    </style>
 </head>
-<body>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <h1 class="logo">N1X<span>.</span></h1>
-      <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <button id="theme-toggle" class="theme-btn"><i class="fas fa-moon"></i></button>
-    </div>
-  </nav>
+<body oncontextmenu="return false;"> <header>
+        <h1>The Dostoevsky Archive</h1>
+        <p>Free Official Digital Library</p>
+    </header>
 
-  <!-- Hero -->
-  <section id="home" class="hero">
-    <div class="hero-content">
-      <h1>Hi, I'm <span class="highlight">N1X</span></h1>
-      <p class="typing">Building cool things with code</p>
-      <div class="hero-buttons">
-        <a href="#projects" class="btn primary">View Projects</a>
-        <a href="#contact" class="btn secondary">Get in touch</a>
-      </div>
-      <div class="socials">
-        <a href="#" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
-      </div>
-    </div>
-    <div class="hero-visual">
-      <div class="glass-card floating"></div>
-    </div>
-  </section>
-
-  <!-- About -->
-  <section id="about" class="section">
-    <h2>About Me</h2>
-    <div class="about-content">
-      <div class="about-text">
-        <p>I'm a passionate developer from Dehradun who loves creating beautiful, functional web experiences. I enjoy turning ideas into reality with modern technologies.</p>
-        <p>When I'm not coding, you'll find me exploring new tech, hiking in the mountains, or drinking chai.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Skills -->
-  <section id="skills" class="section">
-    <h2>Skills</h2>
-    <div class="skills-grid">
-      <div class="skill-item"><span>HTML / CSS</span><div class="progress"><div class="bar" style="width:95%"></div></div></div>
-      <div class="skill-item"><span>JavaScript</span><div class="progress"><div class="bar" style="width:90%"></div></div></div>
-      <div class="skill-item"><span>React / Next.js</span><div class="progress"><div class="bar" style="width:85%"></div></div></div>
-      <div class="skill-item"><span>Python</span><div class="progress"><div class="bar" style="width:80%"></div></div></div>
-      <div class="skill-item"><span>Tailwind / GSAP</span><div class="progress"><div class="bar" style="width:88%"></div></div></div>
-      <div class="skill-item"><span>Node.js</span><div class="progress"><div class="bar" style="width:75%"></div></div></div>
-    </div>
-  </section>
-
-  <!-- Projects -->
-  <section id="projects" class="section">
-    <h2>Featured Projects</h2>
-    <div class="projects-grid">
-      <div class="project-card">
-        <div class="card-inner">
-          <h3>Neon Dashboard</h3>
-          <p>Real-time analytics dashboard with glassmorphism and live charts.</p>
-          <div class="tags">React • Tailwind • Chart.js</div>
-          <a href="#" class="project-link">Live Demo →</a>
+    <main id="library-view">
+        <div class="book-grid">
+            <div class="book-card" onclick="openBook('crime')">
+                <div class="book-cover">Crime and Punishment</div>
+                <h3>Crime & Punishment</h3>
+                <p style="color: var(--ui-text); font-size: 0.9rem;">1866 • Read Now</p>
+            </div>
+            <div class="book-card" onclick="alert('Demo: Only Crime and Punishment is loaded.')">
+                <div class="book-cover" style="background: #333;">The Brothers Karamazov</div>
+                <h3>Brothers Karamazov</h3>
+                <p style="color: var(--ui-text); font-size: 0.9rem;">1880 • Read Now</p>
+            </div>
+            <div class="book-card" onclick="alert('Demo: Only Crime and Punishment is loaded.')">
+                <div class="book-cover" style="background: #1a1a1a;">Notes from Underground</div>
+                <h3>Notes from Underground</h3>
+                <p style="color: var(--ui-text); font-size: 0.9rem;">1864 • Read Now</p>
+            </div>
         </div>
-      </div>
-      <div class="project-card">
-        <div class="card-inner">
-          <h3>AI Image Generator</h3>
-          <p>Web app that generates images using modern AI APIs.</p>
-          <div class="tags">Next.js • OpenAI • Framer Motion</div>
-          <a href="#" class="project-link">Live Demo →</a>
+    </main>
+
+    <main id="reader-view">
+        <div class="reader-nav">
+            <button class="back-btn" onclick="closeBook()">
+                <span>←</span> Back to Library
+            </button>
+            <span style="font-family: 'Crimson Text', serif; font-style: italic; color: var(--ui-text);">Crime and Punishment - Part I</span>
         </div>
-      </div>
-      <div class="project-card">
-        <div class="card-inner">
-          <h3>Mountain Explorer</h3>
-          <p>Interactive map and blog for Himalayan adventures.</p>
-          <div class="tags">Three.js • GSAP • Leaflet</div>
-          <a href="#" class="project-link">Live Demo →</a>
+
+        <div class="reader-instructions">
+            <strong>Interactive Reading Enabled:</strong> Long-press (or click and hold) on any dotted underlined word to instantly view its simple meaning.
         </div>
-      </div>
+
+        <div class="book-text" id="book-content"></div>
+    </main>
+
+    <div id="dictionary-tooltip">
+        <span class="word-title" id="tooltip-word">Word</span>
+        <span id="tooltip-def">Definition goes here.</span>
     </div>
-  </section>
 
-  <!-- Contact -->
-  <section id="contact" class="section">
-    <h2>Get In Touch</h2>
-    <form id="contact-form" class="contact-form">
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <textarea placeholder="Your Message" rows="6" required></textarea>
-      <button type="submit" class="btn primary">Send Message</button>
-    </form>
-  </section>
+    <script>
+        // 1. THE DICTIONARY (Complex words mapped to simple meanings)
+        const dictionary = {
+            "exceptionally": "unusually or unusually highly",
+            "garret": "a small, dismal, and dark attic room",
+            "lodged": "rented a room to live in",
+            "hesitation": "pausing before doing something due to doubt",
+            "anxieties": "feelings of worry, nervousness, or unease",
+            "hypochondriac": "a person who is constantly worried about their health",
+            "irresolute": "uncertain how to act or proceed",
+            "absorbed": "intensely engaged or focused on oneself",
+            "dreaded": "anticipated with great apprehension or fear"
+        };
 
-  <footer>
-    <p>&copy; 2026 N1X. Made with ❤️ and lots of chai.</p>
-  </footer>
+        // 2. THE BOOK TEXT
+        const rawText = `
+            <p>On an exceptionally hot evening early in July a young man came out of the garret in which he lodged in S. Place and walked slowly, as though in hesitation, towards K. bridge.</p>
+            <p>He had successfully avoided meeting his landlady on the staircase. His garret was under the roof of a high, five-storied house and was more like a cupboard than a room. The landlady who provided him with garret, dinners, and attendance, lived on the floor below, and every time he went out he was obliged to pass her kitchen, the door of which invariably stood open. And each time he passed, the young man had a sick, frightened feeling, which made him scowl and feel ashamed. He was hopelessly in debt to his landlady, and was afraid of meeting her.</p>
+            <p>This was not because he was cowardly and abject, quite the contrary; but for some time past he had been in an overstrained irritable condition, verging on hypochondriac. He had become so completely absorbed in himself, and isolated from his fellows that he dreaded meeting, not only his landlady, but anyone at all. He was crushed by poverty, but the anxieties of his position had of late ceased to weigh upon him.</p>
+        `;
 
-  <script src="script.js"></script>
+        // 3. AUTO-WRAPPER FUNCTION
+        // This scans the text and automatically underlines any word found in our dictionary
+        function processText(text) {
+            let processedText = text;
+            for (const [word, definition] of Object.entries(dictionary)) {
+                // Regex to find the word safely (ignoring case, matching whole words)
+                const regex = new RegExp(`\\b(${word})\\b`, 'gi');
+                processedText = processedText.replace(regex, `<span class="hard-word" data-word="${word.toLowerCase()}">$1</span>`);
+            }
+            return processedText;
+        }
+
+        // 4. NAVIGATION LOGIC
+        function openBook(bookId) {
+            document.getElementById('library-view').style.display = 'none';
+            document.getElementById('reader-view').style.display = 'block';
+            window.scrollTo(0, 0);
+            
+            // Inject and process the text
+            const contentDiv = document.getElementById('book-content');
+            contentDiv.innerHTML = processText(rawText);
+            
+            // Re-attach long-press listeners to the newly created words
+            attachDictionaryListeners();
+        }
+
+        function closeBook() {
+            document.getElementById('reader-view').style.display = 'none';
+            document.getElementById('library-view').style.display = 'block';
+        }
+
+        // 5. LONG PRESS DICTIONARY LOGIC
+        let pressTimer;
+        const tooltip = document.getElementById('dictionary-tooltip');
+        const tooltipWord = document.getElementById('tooltip-word');
+        const tooltipDef = document.getElementById('tooltip-def');
+
+        function attachDictionaryListeners() {
+            const words = document.querySelectorAll('.hard-word');
+            
+            words.forEach(wordElement => {
+                // For Mobile (Touch)
+                wordElement.addEventListener('touchstart', handlePressStart, {passive: false});
+                wordElement.addEventListener('touchend', handlePressEnd);
+                wordElement.addEventListener('touchmove', handlePressEnd); // Cancel if scrolling
+
+                // For Desktop (Mouse)
+                wordElement.addEventListener('mousedown', handlePressStart);
+                wordElement.addEventListener('mouseup', handlePressEnd);
+                wordElement.addEventListener('mouseleave', handlePressEnd);
+            });
+        }
+
+        function handlePressStart(e) {
+            // Start a timer. If they hold for 400ms, show the meaning.
+            const element = e.target;
+            pressTimer = window.setTimeout(() => {
+                showDefinition(element, e);
+            }, 400); 
+        }
+
+        function handlePressEnd(e) {
+            // If they let go before 400ms, cancel the timer
+            clearTimeout(pressTimer);
+            hideDefinition();
+        }
+
+        function showDefinition(element, event) {
+            const wordKey = element.getAttribute('data-word');
+            const definition = dictionary[wordKey];
+
+            if (definition) {
+                // Vibrate on mobile to confirm long press (if supported)
+                if (navigator.vibrate) navigator.vibrate(50);
+
+                element.classList.add('active');
+                tooltipWord.textContent = wordKey;
+                tooltipDef.textContent = definition;
+                
+                // Calculate position to show above the word
+                const rect = element.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                tooltip.style.left = rect.left + (rect.width / 2) + 'px';
+                tooltip.style.top = (rect.top + scrollTop - 10) + 'px'; // 10px above the word
+                
+                tooltip.classList.add('visible');
+            }
+        }
+
+        function hideDefinition() {
+            tooltip.classList.remove('visible');
+            document.querySelectorAll('.hard-word').forEach(el => el.classList.remove('active'));
+        }
+        
+        // Hide tooltip if user scrolls
+        window.addEventListener('scroll', () => {
+            clearTimeout(pressTimer);
+            hideDefinition();
+        });
+    </script>
 </body>
 </html>
